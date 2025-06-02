@@ -1,0 +1,126 @@
+body {
+	background-image: url("../images/RR-Background-Image.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	position: relative;
+}
+
+.top-buttons {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	gap: 20px;
+	z-index: 10;
+}
+
+.btn {
+	background-color: #8000ff;
+	color: white;
+	font-weight: bold;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 8px;
+	text-decoration: none;
+	font-family: Arial, sans-serif;
+	box-shadow: 0 0 10px #8000ff, 0 0 20px #8000ff;
+	transition: all 0.3s ease;
+}
+
+.btn:hover {
+	background-color: #a64dff;
+	box-shadow: 0 0 15px #a64dff, 0 0 25px #a64dff;
+}
+
+
+.sidebar {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	z-index: 10;
+}
+
+.sidebar img {
+	width: 40px;
+	height: auto;
+	cursor: pointer;
+}
+
+.rightbar {
+	position: fixed;
+	top: 20px;
+	right: 20px; /* pushes it to the rightmost side */
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	z-index: 10;
+}
+
+.rightbar img {
+	width: 40px;
+	height: auto;
+	cursor: pointer;
+}
+
+/* Base transition */
+.sidebar img,
+.rightbar img {
+	transition: all 0.3s ease;
+	transform: scale(1);
+}
+
+/* Twitter glow (X) */
+img.twitter:hover {
+	filter: drop-shadow(0 0 10px #1DA1F2) drop-shadow(0 0 20px #1DA1F2);
+	transform: scale(1.1);
+}
+
+/* Discord glow */
+img.discord:hover {
+	filter: drop-shadow(0 0 10px #5865F2) drop-shadow(0 0 20px #5865F2);
+	transform: scale(1.1);
+}
+
+/* Magic Eden glow */
+img.magiceden:hover {
+	filter: drop-shadow(0 0 10px #F70CFF) drop-shadow(0 0 20px #F70CFF);
+	transform: scale(1.1);
+}
+
+/* Tensor glow */
+img.tensor:hover {
+	filter: drop-shadow(0 0 10px #FFC300) drop-shadow(0 0 20px #FFC300);
+	transform: scale(1.1);
+}
+
+/* Bunnies & Homies glow */
+img.bunnies:hover {
+	filter: drop-shadow(0 0 10px #00FFC3) drop-shadow(0 0 20px #00FFC3);
+	transform: scale(1.1);
+}
+
+
+.welcome-text {
+	color: #c200ff;
+	font-size: 2rem;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+}
+
+.subtitle {
+	color: white;
+	font-weight: normal;
+	font-size: 1rem;
+}
