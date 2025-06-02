@@ -1,10 +1,16 @@
-import TopHoldersTable from '@/components/TopHoldersTable';
+import TopHoldersTable from '../components/TopHoldersTable';
+
+const mockData = [
+  { name: 'Alice', amount: 500 },
+  { name: 'Bob', amount: 300 },
+  { name: 'Charlie', amount: 150 },
+];
 
 export default function Leaderboard() {
   return (
-    <div className="mt-20">
-      <h2 className="text-2xl font-bold text-center text-purple-400 mb-6">Dough Leaderboard</h2>
-      <TopHoldersTable />
+    <div className="p-10 text-white">
+      <h1 className="text-3xl font-bold mb-6">$Dough Leaderboard</h1>
+      <TopHoldersTable holders={mockData} />
     </div>
   );
 }

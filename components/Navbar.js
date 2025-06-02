@@ -8,24 +8,20 @@ export default function Navbar() {
           Our Products
         </div>
       </Link>
-      <a
-        href="#roadmap"
-        className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300"
-      >
+
+      <a href="#roadmap" className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300">
         Our Roadmap
       </a>
-      <a
-        href="#whitepaper"
-        className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300"
-      >
+
+      <a href="#whitepaper" className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300">
         Our $Dough Whitepaper
       </a>
-      <a
-        href="#leaderboard"
-        className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300"
-      >
-        Our $Dough Leaderboard
-      </a>
+
+      <Link href="/leaderboard">
+        <div className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white font-semibold text-sm shadow-[0_0_10px_#d946ef,0_0_20px_#a855f7] hover:shadow-[0_0_20px_#d946ef,0_0_40px_#a855f7] transition duration-300">
+          Our $Dough Leaderboard
+        </div>
+      </Link>
     </nav>
   );
 }
