@@ -1,19 +1,19 @@
-
 import React from 'react';
 
-export default function LeaderboardPage({ holders, totalSupply, tokenPrice }) {
+export default function LeaderboardPage({ holders = [], totalSupply = 0, tokenPrice = 0 }) {
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white shadow-xl rounded-lg p-8 max-w-4xl w-full text-black">
+  <div className="flex justify-center items-center py-16 w-full">
+    <div className="bg-white rounded-xl shadow-lg p-8 text-black w-fit max-w-full overflow-auto">
+      <div>
         <h1 className="text-2xl font-bold mb-6 text-center">Top 20 Holders</h1>
-        <table className="w-full border-separate border-spacing-y-2 text-sm sm:text-base">
+        <table className="table-auto border-collapse text-sm sm:text-base">
           <thead>
             <tr className="text-left text-gray-700 uppercase text-xs border-b border-gray-300">
-              <th className="pb-2">Rank</th>
-              <th className="pb-2">Wallet</th>
-              <th className="pb-2">Amount</th>
-              <th className="pb-2">% of Supply</th>
-              <th className="pb-2">Value (USD)</th>
+              <th className="pb-2 pr-4">Rank</th>
+              <th className="pb-2 pr-4">Wallet</th>
+              <th className="pb-2 pr-4">Amount</th>
+              <th className="pb-2 pr-4">% of Supply</th>
+              <th className="pb-2 pr-4">Value (USD)</th>
             </tr>
           </thead>
           <tbody>
@@ -26,8 +26,8 @@ export default function LeaderboardPage({ holders, totalSupply, tokenPrice }) {
             ) : (
               holders.map((holder, index) => (
                 <tr key={index} className="hover:bg-gray-100">
-                  <td className="py-2 px-3 font-semibold">{index + 1}</td>
-                  <td className="py-2 px-3">
+                  <td className="py-2 pr-4 font-semibold">{index + 1}</td>
+                  <td className="py-2 pr-4">
                     <a
                       href={`https://solscan.io/account/${holder.owner}`}
                       target="_blank"
@@ -37,14 +37,14 @@ export default function LeaderboardPage({ holders, totalSupply, tokenPrice }) {
                       {holder.owner.slice(0, 4)}...{holder.owner.slice(-4)}
                     </a>
                   </td>
-                  <td className="py-2 px-3">{Number(holder.amount).toLocaleString()}</td>
-                  <td className="py-2 px-3">
+                  <td className="py-2 pr-4">{Number(holder.amount).toLocaleString()}</td>
+                  <td className="py-2 pr-4">
                     {totalSupply > 0
                       ? ((holder.amount / totalSupply) * 100).toFixed(2)
                       : '—'}
                     %
                   </td>
-                  <td className="py-2 px-3">
+                  <td className="py-2 pr-4">
                     ${(holder.amount * tokenPrice).toFixed(2)}
                   </td>
                 </tr>
@@ -55,16 +55,18 @@ export default function LeaderboardPage({ holders, totalSupply, tokenPrice }) {
 
         <div className="mt-6 text-sm text-gray-600">
           <p>Total Supply: {Number(totalSupply).toLocaleString()}</p>
-          <p>Token Price (USD): ${tokenPrice}</p>
+          <p>Token Price (USD): ${tokenPrice.toFixed(8)}</p>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export async function getServerSideProps() {
   const MINT = '4XKyPd6Z8mts5BTYMJ4xM53z6ZBJUzNpAqUw1JZi1Tkz';
-  const HELIUS_API_KEY = process.env.HELIUS_API_KEY; // Ensure this is set in your environment variables
+  const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
 
   let holders = [];
   let totalSupply = 0;
@@ -72,7 +74,6 @@ export async function getServerSideProps() {
   let decimals = 0;
 
   try {
-    // Fetch total supply and decimals
     const supplyRes = await fetch('https://api.mainnet-beta.solana.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -93,7 +94,6 @@ export async function getServerSideProps() {
   }
 
   try {
-    // Fetch token accounts
     const heliusRes = await fetch(`https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -106,8 +106,8 @@ export async function getServerSideProps() {
           page: 1,
           limit: 1000,
           displayOptions: {
-            showZeroBalance: false
-          }
+            showZeroBalance: false,
+          },
         },
       }),
     });
@@ -115,11 +115,10 @@ export async function getServerSideProps() {
     const heliusData = await heliusRes.json();
     const tokenAccounts = heliusData?.result?.token_accounts || [];
 
-    // Aggregate balances by owner
     const ownerBalances = {};
-    tokenAccounts.forEach(account => {
+    tokenAccounts.forEach((account) => {
       const owner = account.owner;
-      const amount = account.amount / Math.pow(10, decimals); // Normalize amount
+      const amount = account.amount / Math.pow(10, decimals);
       if (ownerBalances[owner]) {
         ownerBalances[owner] += amount;
       } else {
@@ -127,17 +126,15 @@ export async function getServerSideProps() {
       }
     });
 
-    // Convert to array and sort by balance descending
     holders = Object.entries(ownerBalances)
       .map(([owner, amount]) => ({ owner, amount }))
       .sort((a, b) => b.amount - a.amount)
-      .slice(0, 20); // Top 20 holders
+      .slice(0, 20);
   } catch (error) {
     console.error('❌ Failed to fetch holders from Helius:', error);
   }
 
   try {
-    // Fetch token price
     const priceRes = await fetch(
       'https://api.dexscreener.com/latest/dex/pairs/solana/4YX2LqvzVRgYuotmq8SqPvT4iYDMdSmWAb52pgHwXjQ8'
     );
@@ -155,4 +152,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
