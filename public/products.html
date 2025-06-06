@@ -1,0 +1,28 @@
+import React from 'react';
+
+export default function ProductsPage() {
+  return (
+    <div className="flex flex-col items-center mt-24 px-4">
+      <h1 className="text-3xl font-bold text-white mb-10">Our Products</h1>
+
+      <div className="flex flex-wrap justify-center gap-8">
+        <div className="bg-white rounded-xl p-6 shadow-lg w-[600px] flex items-center hover:scale-[1.02] hover:shadow-purple-300 transition duration-300">
+          <img
+            src="/images/Degen TV.jpg"
+            alt="Degen TV"
+            className="w-[150px] h-auto rounded-lg"
+          />
+
+          <div className="flex flex-col items-center flex-grow mx-6">
+            <h3 className="text-xl font-semibold text-black">Degen TV</h3>
+          </div>
+
+          <div className="text-green-500 text-2xl font-bold hover:drop-shadow-[0_0_8px_#00ff00]">
+            $349.99
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
