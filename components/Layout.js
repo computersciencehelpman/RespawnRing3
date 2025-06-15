@@ -6,14 +6,10 @@ import DarkModeToggle from './DarkModeToggle';
 
 export default function Layout({ children }) {
   const router = useRouter();
-  const path = router.pathname;
+  const isLeaderboard = router.pathname === '/leaderboard';
 
-  // Define per-page background logic
-  const isLeaderboard = path === '/leaderboard';
   const backgroundStyle = isLeaderboard
-    ? {
-        backgroundColor: 'white',
-      }
+    ? { backgroundColor: 'black' }
     : {
         backgroundImage: "url('/images/RR-Background-Image.png')",
         backgroundSize: 'cover',
@@ -22,7 +18,7 @@ export default function Layout({ children }) {
         backgroundAttachment: 'fixed',
       };
 
-  const textColor = isLeaderboard ? 'text-black' : 'text-white';
+  const textColor = 'text-white';
 
   return (
     <div className={`min-h-screen relative ${textColor}`} style={backgroundStyle}>
@@ -30,15 +26,34 @@ export default function Layout({ children }) {
       <Sidebar />
       <Rightbar />
       <DarkModeToggle />
-      <main
-  className={`pt-32 flex flex-col items-center justify-center min-h-screen text-center ${
-    path === '/leaderboard' ? 'px-4' : ''
-  }`}>
-  <div className={path === '/leaderboard' ? 'w-fit' : 'w-full'}>
-    {children}
-  </div>
-</main>
 
+      <main className="pt-32 flex flex-col items-center justify-center min-h-screen text-center relative z-10">
+        {children}
+      </main>
+
+      {/* ✅ Froth Key image - truly fixed bottom-right */}
+      {isLeaderboard && (
+        <div
+          className="z-[1000]"
+          style={{
+            position: 'fixed',
+            bottom: '1rem',
+            right: '1rem',
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            className="bg-black/80 p-2 rounded-lg shadow-lg backdrop-blur-md"
+            style={{ width: '14rem', maxHeight: '200px' }}
+          >
+            <img
+              src="/images/Froth.png"
+              alt="Froth Key"
+              className="w-full h-auto object-contain rounded opacity-90"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

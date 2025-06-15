@@ -2,9 +2,8 @@ import React from 'react';
 
 export default function LeaderboardPage({ holders = [], totalSupply = 0, tokenPrice = 0 }) {
   return (
-  <div className="flex justify-center items-center py-16 w-full">
-    <div className="bg-white rounded-xl shadow-lg p-8 text-black w-fit max-w-full overflow-auto">
-      <div>
+    <div className="flex justify-center items-start py-16 min-h-screen bg-black text-white">
+      <div className="bg-white text-black rounded-xl shadow-lg p-6 w-fit max-w-full overflow-auto">
         <h1 className="text-2xl font-bold mb-6 text-center">Top 20 Holders</h1>
         <table className="table-auto border-collapse text-sm sm:text-base">
           <thead>
@@ -17,39 +16,31 @@ export default function LeaderboardPage({ holders = [], totalSupply = 0, tokenPr
             </tr>
           </thead>
           <tbody>
-            {holders.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center py-4 text-red-500">
-                  No holder data available.
+            {holders.map((holder, index) => (
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="py-2 pr-4 font-semibold">{index + 1}</td>
+                <td className="py-2 pr-4">
+                  <a
+                    href={`https://solscan.io/account/${holder.owner}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline hover:text-blue-700"
+                  >
+                    {holder.owner.slice(0, 4)}...{holder.owner.slice(-4)}
+                  </a>
+                </td>
+                <td className="py-2 pr-4">{Number(holder.amount).toLocaleString()}</td>
+                <td className="py-2 pr-4">
+                  {totalSupply > 0
+                    ? ((holder.amount / totalSupply) * 100).toFixed(2)
+                    : '—'}
+                  %
+                </td>
+                <td className="py-2 pr-4">
+                  ${(holder.amount * tokenPrice).toFixed(2)}
                 </td>
               </tr>
-            ) : (
-              holders.map((holder, index) => (
-                <tr key={index} className="hover:bg-gray-100">
-                  <td className="py-2 pr-4 font-semibold">{index + 1}</td>
-                  <td className="py-2 pr-4">
-                    <a
-                      href={`https://solscan.io/account/${holder.owner}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline hover:text-blue-700"
-                    >
-                      {holder.owner.slice(0, 4)}...{holder.owner.slice(-4)}
-                    </a>
-                  </td>
-                  <td className="py-2 pr-4">{Number(holder.amount).toLocaleString()}</td>
-                  <td className="py-2 pr-4">
-                    {totalSupply > 0
-                      ? ((holder.amount / totalSupply) * 100).toFixed(2)
-                      : '—'}
-                    %
-                  </td>
-                  <td className="py-2 pr-4">
-                    ${(holder.amount * tokenPrice).toFixed(2)}
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
 
@@ -59,9 +50,7 @@ export default function LeaderboardPage({ holders = [], totalSupply = 0, tokenPr
         </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 }
 
 export async function getServerSideProps() {
@@ -119,11 +108,7 @@ export async function getServerSideProps() {
     tokenAccounts.forEach((account) => {
       const owner = account.owner;
       const amount = account.amount / Math.pow(10, decimals);
-      if (ownerBalances[owner]) {
-        ownerBalances[owner] += amount;
-      } else {
-        ownerBalances[owner] = amount;
-      }
+      ownerBalances[owner] = (ownerBalances[owner] || 0) + amount;
     });
 
     holders = Object.entries(ownerBalances)
