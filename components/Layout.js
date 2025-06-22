@@ -30,7 +30,7 @@ export default function Layout({ children }) {
       {/* ✅ Move this outside <main> so it's not hidden by z-10 */}
       {isLeaderboard && (
         <>
-          <div className="fixed bottom-4 left-4 z-[9999] p-3 bg-white rounded-xl shadow-2xl">
+          <div className="fixed bottom-4 left-4 z-[99999] p-3 bg-white rounded-xl shadow-2xl">
             <img
               src="/images/Froth_resized.png"
               alt="Froth Key"
