@@ -1,3 +1,4 @@
+// pages/leaderboard.js
 import React from 'react';
 
 export default function LeaderboardPage({ holders = [], totalSupply = 0, tokenPrice = 0 }) {
@@ -102,6 +103,8 @@ export async function getServerSideProps() {
     });
 
     const heliusData = await heliusRes.json();
+    console.log("✅ Helius response:", JSON.stringify(heliusData, null, 2));
+
     const tokenAccounts = heliusData?.result?.token_accounts || [];
 
     const ownerBalances = {};

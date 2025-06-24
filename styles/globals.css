@@ -13,12 +13,6 @@
   --text-color: #ededed;
 }
 
-html,
-body {
-  min-height: 100%;
-  position: relative;
-}
-
 body {
   background-color: var(--bg-color);
   color: var(--text-color);

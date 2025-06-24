@@ -27,26 +27,33 @@ export default function Layout({ children }) {
       <Rightbar />
       <DarkModeToggle />
 
-      {/* ✅ Move this outside <main> so it's not hidden by z-10 */}
-      {isLeaderboard && (
-        <>
-          <div className="fixed bottom-4 left-4 z-[99999] p-3 bg-white rounded-xl shadow-2xl">
-            <img
-              src="/images/Froth_resized.png"
-              alt="Froth Key"
-              className="w-40 h-auto block rounded"
-            />
-          </div>
-
-          <div className="fixed top-0 left-0 z-[9999] bg-red-500 text-white p-4">
-            ✅ Layout isLeaderboard check passed
-          </div>
-        </>
-      )}
-
       <main className="pt-32 flex flex-col items-center justify-center min-h-screen text-center relative z-10">
         {children}
       </main>
+
+      {/* ✅ Froth Key image - truly fixed bottom-right */}
+      {isLeaderboard && (
+        <div
+          className="z-[1000]"
+          style={{
+            position: 'fixed',
+            bottom: '1rem',
+            right: '1rem',
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            className="bg-black/80 p-2 rounded-lg shadow-lg backdrop-blur-md"
+            style={{ width: '14rem', maxHeight: '200px' }}
+          >
+            <img
+              src="/images/Froth.png"
+              alt="Froth Key"
+              className="w-full h-auto object-contain rounded opacity-90"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

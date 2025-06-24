@@ -1,9 +1,32 @@
-import React from 'react';
+'use client';
 
-export default function Leaderboard({ holders, totalSupply, tokenPrice }) {
+import React, { useEffect, useState } from 'react';
+
+export default function Leaderboard() {
+  const [holders, setHolders] = useState([]);
+  const [totalSupply, setTotalSupply] = useState(null);
+  const [tokenPrice, setTokenPrice] = useState(null);
+
+  useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const response = await fetch('/api/holders'); // Replace with your actual API
+        const data = await response.json();
+
+        setHolders(data.holders || []);
+        setTotalSupply(data.totalSupply);
+        setTokenPrice(data.tokenPrice);
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+      }
+    };
+
+    fetchLeaderboardData();
+  }, []);
+
   return (
     <div className="bg-black text-white px-6 py-10 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Top Holders (Simple View)</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">Top 20 Holders</h1>
       <table className="w-full text-sm">
         <thead>
           <tr className="uppercase text-gray-400 text-xs border-b border-gray-700">
@@ -36,10 +59,12 @@ export default function Leaderboard({ holders, totalSupply, tokenPrice }) {
         </tbody>
       </table>
 
-      <div className="mt-6 text-xs text-gray-400">
-        <p>Total Supply: {totalSupply.toLocaleString()}</p>
-        <p>Token Price (USD): ${tokenPrice}</p>
-      </div>
+      {totalSupply && tokenPrice && (
+        <div className="mt-6 text-xs text-gray-400 text-center">
+          <p>Total Supply: {totalSupply.toLocaleString()}</p>
+          <p>Token Price (USD): ${tokenPrice}</p>
+        </div>
+      )}
     </div>
   );
 }
